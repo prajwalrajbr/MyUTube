@@ -8,6 +8,11 @@
     padding-bottom: 50px;
     border-radius: 12px;
 }
+
 #logo-text{
     font-size: 40px;
+}
+
+#content, #authorize-button, #signout-button{
+    display: none;
 }
