@@ -1,3 +1,17 @@
+nav{
+    font-family: 'Acme', sans-serif;
+    font-size: 48px;
+}
+#side-nav-list button{
+    font-family: 'Acme', sans-serif;
+    font-size: 20px;
+}
+
+#google-prompt{
+    font-family: 'Concert One', cursive;
+
+}
+
 #logo-icon{
     margin-top: 6px;
     font-size: 40px;
@@ -9,10 +23,20 @@
     border-radius: 12px;
 }
 
+#signout-button{
+    font-size: 15px;
+    margin-bottom: 25px;
+    border-style: solid;
+    border-color: white;
+    border-width: 5px;
+    padding-bottom: 35px;
+}
+
 #logo-text{
-    font-size: 40px;
+    font-size: 37px;
 }
 
 #content, #authorize-button, #signout-button{
     display: none;
+    font-family: 'Patua One', cursive;
 }
