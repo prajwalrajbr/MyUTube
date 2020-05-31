@@ -2,6 +2,33 @@ $(document).ready(function(){
     $('.sidenav').sidenav();
 });
 
+$(document).ready(function(){
+  $('select').formSelect();
+});
+var staticUrl = '';
+var orderBy = "rating";
+document.getElementById('order-list').onchange = function () {
+    console.log(document.getElementById('order-list').value);
+    orderBy = document.getElementById('order-list').value;
+    staticUrl = 'https://www.googleapis.com/youtube/v3/search?order='+orderBy+'&part=snippet&type=video&videoCategoryId='+catagoryID+'&key=AIzaSyC86qGosUbBF9ehKaV0SJh7m8AwVy3m-ww&alt=json';
+    $.getJSON(staticUrl, function(data) {
+      console.log(data);
+    });
+};
+
+var catagoryID = "17";
+document.getElementById('catagory-list').onchange = function () {
+    console.log(document.getElementById('catagory-list').value);
+    catagoryID = document.getElementById('catagory-list').value;
+    staticUrl = 'https://www.googleapis.com/youtube/v3/search?order='+orderBy+'&part=snippet&type=video&videoCategoryId='+catagoryID+'&key=AIzaSyC86qGosUbBF9ehKaV0SJh7m8AwVy3m-ww&alt=json';
+    $.getJSON(staticUrl, function(data) {
+      console.log(data);
+    });
+};
+
+
+//https://www.googleapis.com/youtube/v3/search?order=viewCount&part=snippet&type=video&videoCategoryId=34&key=AIzaSyC86qGosUbBF9ehKaV0SJh7m8AwVy3m-ww&alt=json
+
 const CLIENT_ID = '280319480833-i4chh7eknrp3eudjbffr2hbgq4lgjrd4.apps.googleusercontent.com';
 const DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/youtube/v3/rest"];
 const SCOPES = 'https://www.googleapis.com/auth/youtube.readonly';
@@ -17,6 +44,9 @@ const channelInput = document.getElementById('channel-input');
 const channelData = document.getElementById('channel-data');
 const videoContainer = document.getElementById('video-container');
 const defaultChannel = 'abc';
+
+    console.log(document.getElementById('order-list'));
+
 
 function handleClientLoad() {
     gapi.load('client:auth2', initClient);
