@@ -12,6 +12,10 @@ nav{
 
 }
 
+#authorize-button{
+    margin-bottom: 10px;
+}
+
 #logo-icon{
     margin-top: 4px;
     font-size: 40px;
