@@ -16,7 +16,7 @@
             <a href="#" class="brand-logo white-text hide-on-med-and-down" id="logo-text-large"><i class="white material-icons black-text" id="logo-icon-large">play_arrow</i>MyUTube</a>
             <a href="#" class="brand-logo white-text show-on-medium hide-on-large-only hide-on-small-only" id="logo-text-med"><i class="white material-icons black-text" id="logo-icon-med">play_arrow</i>MyUTube</a>
             <a href="#" class="brand-logo white-text hide-on-med-and-up" id="logo-text-small"><i class="white material-icons black-text" id="logo-icon-small">play_arrow</i>MyUTube</a>
-            <a href="#" class="sidenav-trigger" data-target="side-nav-list">
+            <a href="#" class="sidenav-trigger" data-target="side-nav-list" id="trigger">
                 <i class="material-icons ">menu</i>
             </a>
             <ul class="right hide-on-med-and-down">
@@ -31,7 +31,7 @@
         <li class="black"><button class="btn black waves-effect waves-light sidenav-close" id="signout-button-sidenav">Log Out</button></li>
         <li class="black"><button class="btn black waves-effect waves-light sidenav-close" id="authorize-button-sidenav">Log In</button></li>
     </ul>
-    <section>
+    <section id="section">
         <div class="container">
             <h3 class="center" id="google-prompt">Log In with GOOGLE</h3>
             <div class="center">
@@ -42,7 +42,7 @@
                 <div class="video-container"></div>
             </div>
         </div>
-        <div class="container grey lighten-2" id="without-login">
+        <div class="container grey darken-3" id="without-login">
             <div class="row">
                 <div class="col s3">
                     <select class="input-field" id="order-list">
@@ -66,10 +66,54 @@
                     </select>
                     <label>Catagory</label>
                 </div>
-            </div>
+            </div> 
             <div id="End" style="height:100px"></div>
+            <div class="center" id="preleoader">
+                <div class="preloader-wrapper big active hide-on-med-and-down">
+                    <div class="spinner-layer spinner-w-only">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div><div class="gap-patch">
+                            <div class="circle"></div>
+                        </div><div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="preloader-wrapper active show-on-medium hide-on-large-only hide-on-small-only">
+                    <div class="spinner-layer spinner-blue-only">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div><div class="gap-patch">
+                            <div class="circle"></div>
+                        </div><div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="preloader-wrapper small active ">
+                    <div class="spinner-layer spinner-blue-only hide-on-large-only hide-on-med-only">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div><div class="gap-patch">
+                            <div class="circle"></div>
+                        </div><div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="center">
                 <button class="btn-small black waves-effect waves-light pulse" id="load-more">Load more<i class="material-icons white-text" id="load-more-icon">autorenew</i></button>
+            </div>
+            <div class="row" >
+                <div class="col s1"></div>
+                <div class="col s10" >
+                    <div class="video-container" >
+                        <iframe id="video" width="560" height="315" src="https://www.youtube.com/embed/37s59Y4OkOM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
+                <div class="col s1"></div>
             </div>
             <div style="height:100px"></div>
         </div>    

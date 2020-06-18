@@ -10,12 +10,19 @@ var orderBy = "rating";
 var catagoryID = "28";
 var videoCount = 0;
 var staticUrl = 'https://www.googleapis.com/youtube/v3/search?order='+orderBy+'&part=snippet&maxResults='+(videoCount+5)+'&type=video&videoCategoryId='+catagoryID+'&key=AIzaSyC86qGosUbBF9ehKaV0SJh7m8AwVy3m-ww&alt=json';
+
 $.getJSON(staticUrl, function(data) {
+    
     Array.prototype.forEach.call( document.querySelectorAll('#video-row'), function( node ) {
         node.parentNode.removeChild( node );
     });
     loadVideos(data);
-});
+})
+.fail(function() {
+    document.getElementById('section').style.display = 'none';
+    document.getElementById('side-nav-list').style.display = 'none';
+    document.getElementById('trigger').style.display = 'none';
+})
 
 document.getElementById('order-list').onchange = function () {
     console.log(document.getElementById('order-list').value);
@@ -26,7 +33,12 @@ document.getElementById('order-list').onchange = function () {
             node.parentNode.removeChild( node );
         });
         loadVideos(data);
-    });
+    })
+    .fail(function() {
+        document.getElementById('section').style.display = 'none';
+        document.getElementById('side-nav-list').style.display = 'none';
+        document.getElementById('trigger').style.display = 'none';
+    })
 };
 
 document.getElementById('catagory-list').onchange = function () {
@@ -38,10 +50,17 @@ document.getElementById('catagory-list').onchange = function () {
             node.parentNode.removeChild( node );
         });
         loadVideos(data);
-    });
+    })
+    .fail(function() {
+        document.getElementById('section').style.display = 'none';
+        document.getElementById('side-nav-list').style.display = 'none';
+        document.getElementById('trigger').style.display = 'none';
+    })
 };
 
 function loadVideos(data){
+    console.log("kk");
+    console.log(data);
     for (i=videoCount;i<data.items.length;i++) {
         var z = document.querySelector('#without-login');
         var toInsertBefore = document.querySelector('#End');
@@ -63,6 +82,7 @@ function loadVideos(data){
         iframe.frameBorder = "0";
         iframe.allow = "accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture";
         iframe.setAttribute('allowfullscreen', true);
+        iframe.id = "video";
 
         newVideoElement.appendChild(iframe);
 
@@ -83,8 +103,14 @@ document.getElementById('load-more').onclick = function (){
     videoCount += 5;
     staticUrl = 'https://www.googleapis.com/youtube/v3/search?order='+orderBy+'&part=snippet&maxResults='+(videoCount+5)+'&type=video&videoCategoryId='+catagoryID+'&key=AIzaSyC86qGosUbBF9ehKaV0SJh7m8AwVy3m-ww&alt=json';
     $.getJSON(staticUrl, function(data) {
+        
         loadVideos(data);
-    });
+    })
+    .fail(function() {
+        document.getElementById('section').style.display = 'none';
+        document.getElementById('side-nav-list').style.display = 'none';
+        document.getElementById('trigger').style.display = 'none';
+    })
     if(videoCount==45){
         document.getElementById('load-more').className = 'btn disabled';
     }
