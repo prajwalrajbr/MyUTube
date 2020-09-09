@@ -1,14 +1,27 @@
+
 $(document).ready(function(){
     $('.sidenav').sidenav();
 });
 
 $(document).ready(function(){
-  $('select').formSelect();
+    $('select').formSelect();
+});
+AOS.init({
+    offset: 100,
+    duration: 1000
+});
+let scrollRef = 0;
+window.addEventListener('scroll', function() {
+  scrollRef <= 10 ? scrollRef++ : AOS.refresh();
+  if(Math.ceil($(window).scrollTop()) == $(document).height() - $(window).height() || Math.ceil($(window).scrollTop())+1 == $(document).height() - $(window).height() || Math.ceil($(window).scrollTop())-1 == $(document).height() - $(window).height()) {
+        loadMore();
+  }
 });
 
 var orderBy = "rating";
 var catagoryID = "28";
 var videoCount = 0;
+var aoslr = 0;
 var staticUrl = 'https://www.googleapis.com/youtube/v3/search?order='+orderBy+'&part=snippet&maxResults='+(videoCount+5)+'&type=video&videoCategoryId='+catagoryID+'&key=AIzaSyC86qGosUbBF9ehKaV0SJh7m8AwVy3m-ww&alt=json';
 
 $.getJSON(staticUrl, function(data) {
@@ -22,10 +35,11 @@ $.getJSON(staticUrl, function(data) {
     document.getElementById('section').style.display = 'none';
     document.getElementById('side-nav-list').style.display = 'none';
     document.getElementById('trigger').style.display = 'none';
+    document.getElementById('error').style.display = 'block';
 })
 
 document.getElementById('order-list').onchange = function () {
-    console.log(document.getElementById('order-list').value);
+    aoslr=0;
     orderBy = document.getElementById('order-list').value;
     staticUrl = 'https://www.googleapis.com/youtube/v3/search?order='+orderBy+'&part=snippet&maxResults='+(videoCount+5)+'&type=video&videoCategoryId='+catagoryID+'&key=AIzaSyC86qGosUbBF9ehKaV0SJh7m8AwVy3m-ww&alt=json';
     $.getJSON(staticUrl, function(data) {
@@ -38,11 +52,12 @@ document.getElementById('order-list').onchange = function () {
         document.getElementById('section').style.display = 'none';
         document.getElementById('side-nav-list').style.display = 'none';
         document.getElementById('trigger').style.display = 'none';
+        document.getElementById('error').style.display = 'block';
     })
 };
 
 document.getElementById('catagory-list').onchange = function () {
-    console.log(document.getElementById('catagory-list').value);
+    aoslr=0;
     catagoryID = document.getElementById('catagory-list').value;
     staticUrl = 'https://www.googleapis.com/youtube/v3/search?order='+orderBy+'&part=snippet&maxResults='+(videoCount+5)+'&type=video&videoCategoryId='+catagoryID+'&key=AIzaSyC86qGosUbBF9ehKaV0SJh7m8AwVy3m-ww&alt=json';
     $.getJSON(staticUrl, function(data) {
@@ -55,19 +70,32 @@ document.getElementById('catagory-list').onchange = function () {
         document.getElementById('section').style.display = 'none';
         document.getElementById('side-nav-list').style.display = 'none';
         document.getElementById('trigger').style.display = 'none';
+        document.getElementById('error').style.display = 'block';
     })
 };
 
 function loadVideos(data){
-    console.log("kk");
-    console.log(data);
+    
+    document.getElementById('preleoader').style.display = 'block';
     for (i=videoCount;i<data.items.length;i++) {
         var z = document.querySelector('#without-login');
         var toInsertBefore = document.querySelector('#End');
         
         var newElement = document.createElement('div');
         newElement.className = 'row';
-        newElement.id = 'video-row';
+        if(aoslr!=0){
+            if(aoslr%2==0){
+                newElement.setAttribute('data-aos', 'zoom-in-left');
+            }else{
+                newElement.setAttribute('data-aos', 'zoom-in-right');
+            }
+        }else{
+            newElement.setAttribute('data-aos', 'zoom-in');
+            newElement.setAttribute('data-aos-offset', '100');
+            newElement.setAttribute('data-aos-duration', '500');
+        }
+        aoslr++;
+        newElement.id = 'video-row-l';
 
         var newSElement = document.createElement('div');
         newSElement.className = 'col s1';
@@ -96,23 +124,42 @@ function loadVideos(data){
         newElement.appendChild(newSElement);
 
         z.insertBefore(newElement,toInsertBefore)
+        
+        
+        document.getElementById('video-row-l').style.display = 'none';
+        document.getElementById('video-row-l').id = 'video-row';
     }
+
+    var prel = setInterval(function() {
+        document.getElementById('preleoader').style.display = 'none';
+        clearInterval(prel);
+        var v = document.querySelectorAll('#video-row');
+        v.forEach(function(vs) {
+            vs.style.display = 'block';
+          });
+    }, 2000);
+    prel = setInterval(function() {
+        clearInterval(prel);
+        AOS.refresh();
+    }, 500);
+    
 }
 
-document.getElementById('load-more').onclick = function (){
-    videoCount += 5;
-    staticUrl = 'https://www.googleapis.com/youtube/v3/search?order='+orderBy+'&part=snippet&maxResults='+(videoCount+5)+'&type=video&videoCategoryId='+catagoryID+'&key=AIzaSyC86qGosUbBF9ehKaV0SJh7m8AwVy3m-ww&alt=json';
-    $.getJSON(staticUrl, function(data) {
-        
-        loadVideos(data);
-    })
-    .fail(function() {
-        document.getElementById('section').style.display = 'none';
-        document.getElementById('side-nav-list').style.display = 'none';
-        document.getElementById('trigger').style.display = 'none';
-    })
-    if(videoCount==45){
-        document.getElementById('load-more').className = 'btn disabled';
+function loadMore(){
+    if(videoCount!=45){
+        videoCount += 5;
+        staticUrl = 'https://www.googleapis.com/youtube/v3/search?order='+orderBy+'&part=snippet&maxResults='+(videoCount+5)+'&type=video&videoCategoryId='+catagoryID+'&key=AIzaSyC86qGosUbBF9ehKaV0SJh7m8AwVy3m-ww&alt=json';
+        $.getJSON(staticUrl, function(data) {
+            loadVideos(data);
+        })
+        .fail(function() {
+            document.getElementById('section').style.display = 'none';
+            document.getElementById('side-nav-list').style.display = 'none';
+            document.getElementById('trigger').style.display = 'none';
+            document.getElementById('error').style.display = 'block';
+        })
+    }else{
+
     }
 }
 

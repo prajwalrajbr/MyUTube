@@ -102,3 +102,20 @@ nav{
     border-width: 5px;
     border-color: #ffff;
 }
+
+#error{
+    font-family: 'Concert One', cursive;
+}
+
+#load-more{
+    font-family: 'Concert One', cursive;
+    font-size: 15px;
+    height: 30px;
+    padding-bottom: 20px;
+}
+
+#load-more-div{
+    display: block;
+    padding: 0.5em; 
+    opacity: 0.5; 
+}
